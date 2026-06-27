@@ -1,0 +1,56 @@
+.courses-container{
+    padding:40px;
+}
+
+.courses-title{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:42px;
+}
+
+.search-box{
+    width:400px;
+    display:block;
+    margin:auto;
+    padding:15px;
+    border-radius:8px;
+    border:1px solid gray;
+    margin-bottom:40px;
+}
+
+.course-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.course-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    transition:.3s;
+}
+
+.course-card:hover{
+    transform:translateY(-8px);
+}
+
+.course-card img{
+    width:100%;
+    border-radius:10px;
+}
+
+.price{
+    color:green;
+    margin:15px 0;
+}
+
+.enroll-btn{
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+}

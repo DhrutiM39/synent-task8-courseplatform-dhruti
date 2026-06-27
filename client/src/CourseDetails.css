@@ -1,0 +1,28 @@
+.details{
+    width:800px;
+    margin:40px auto;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+    padding:30px;
+}
+
+.details img{
+    width:100%;
+    border-radius:15px;
+    margin:20px 0;
+}
+
+.details h1{
+    margin-bottom:15px;
+}
+
+.details p{
+    color:#555;
+    margin-bottom:20px;
+}
+
+.price{
+    color:green;
+    font-size:30px;
+}

@@ -1,3 +1,4 @@
+import "../MyCourses.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -27,25 +28,88 @@ function MyCourses() {
     }
   };
 
-  return (
-    <div>
-      <h1>My Courses</h1>
+  const updateProgress = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-      {courses.map((item) => (
-        <div
-          key={item._id}
-          style={{
-            border: "1px solid black",
-            padding: "10px",
-            margin: "10px",
-          }}
-        >
-          <h2>{item.course.title}</h2>
-          <p>{item.course.description}</p>
-          <h3>₹ {item.course.price}</h3>
-          <p>Progress: {item.progress}%</p>
-        </div>
-      ))}
+      await axios.put(
+        `http://localhost:5000/api/enrollments/${id}/progress`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      fetchMyCourses();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="mycourses-container">
+
+      <h1 className="mycourses-title">
+        📚 My Learning Dashboard
+      </h1>
+
+      <div className="mycourses-grid">
+
+        {courses.map((item) => (
+
+          <div
+            key={item._id}
+            className="course-card"
+          >
+
+            <img
+              src="https://picsum.photos/350/180"
+              alt="Course"
+              className="course-image"
+            />
+
+            <div className="course-content">
+
+              <h2>{item.course.title}</h2>
+
+              <p>{item.course.description}</p>
+
+              <h3>₹ {item.course.price}</h3>
+
+              <div className="progress-header">
+                <span>Progress</span>
+
+                <span>{item.progress}%</span>
+              </div>
+
+              <div className="progress-bar">
+                <div
+                  className="progress-fill"
+                  style={{
+                    width: `${item.progress}%`,
+                  }}
+                ></div>
+              </div>
+
+              <button
+                className="complete-btn"
+                onClick={() =>
+                  updateProgress(item._id)
+                }
+              >
+                ✅ Mark Complete
+              </button>
+
+            </div>
+
+          </div>
+
+        ))}
+
+      </div>
+
     </div>
   );
 }

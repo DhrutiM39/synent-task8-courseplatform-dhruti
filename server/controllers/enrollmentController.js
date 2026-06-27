@@ -41,8 +41,36 @@ const getMyEnrollments = async (req, res) => {
   }
 };
 
+const updateProgress = async (req, res) => {
+  try {
+    const enrollment =
+      await Enrollment.findById(req.params.id);
+
+    if (!enrollment) {
+      return res.status(404).json({
+        message: "Enrollment not found",
+      });
+    }
+
+    enrollment.progress += 25;
+
+    if (enrollment.progress > 100) {
+      enrollment.progress = 100;
+    }
+
+    await enrollment.save();
+
+    res.status(200).json(enrollment);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = 
 { 
     enrollCourse,
     getMyEnrollments,
+    updateProgress,
  };
