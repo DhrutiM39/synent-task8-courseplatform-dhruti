@@ -1,4 +1,8 @@
 const Course = require("../models/Course");
+const Module = require("../models/Module");
+const Lesson = require("../models/Lesson");
+
+
 
 const addCourse = async (req, res) => {
   try {
@@ -91,10 +95,52 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+const getCourseContent = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+
+    const modules = await Module.find({
+      course: req.params.id,
+    }).sort({ order: 1 });
+
+    const courseContent = [];
+
+    for (const module of modules) {
+      const lessons = await Lesson.find({
+        module: module._id,
+      }).sort({ order: 1 });
+
+      courseContent.push({
+        ...module.toObject(),
+        lessons,
+      });
+    }
+
+    res.status(200).json({
+      course,
+      modules: courseContent,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+
+
 module.exports = {
   addCourse,
   getCourses,
   getCourseById,
   updateCourse,
   deleteCourse,
+  getCourseContent,
 };
