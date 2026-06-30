@@ -10,6 +10,10 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const enrollmentRoutes = require("./routes/enrollmentRoutes");
+const moduleRoutes = require("./routes/moduleRoutes");
+const lessonRoutes = require("./routes/lessonRoutes");
+
+
 
 // Connect Database
 connectDB();
@@ -29,6 +33,9 @@ app.use("/api/enrollments", enrollmentRoutes);
 app.get("/", (req, res) => {
   res.send("Server Running");
 });
+
+app.use("/api/modules", moduleRoutes);
+app.use("/api/lessons", lessonRoutes);
 
 const PORT = process.env.PORT || 5000;
 

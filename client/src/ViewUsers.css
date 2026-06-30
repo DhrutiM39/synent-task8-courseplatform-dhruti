@@ -1,0 +1,33 @@
+.users-container{
+    max-width:1100px;
+    margin:auto;
+    padding:40px;
+}
+
+.users-container h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.users-table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.users-table th{
+    background:#2563eb;
+    color:white;
+    padding:15px;
+}
+
+.users-table td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.users-table tr:hover{
+    background:#f8fafc;
+}

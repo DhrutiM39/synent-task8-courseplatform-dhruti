@@ -67,10 +67,28 @@ const updateProgress = async (req, res) => {
     });
   }
 };
+const getAllEnrollments = async (req, res) => {
+try {
+const enrollments = await Enrollment.find()
+.populate("user", "name email")
+.populate("course", "title price");
+
+
+res.status(200).json(enrollments);
+
+
+} catch (error) {
+res.status(500).json({
+message: error.message,
+});
+}
+};
+
 
 module.exports = 
 { 
     enrollCourse,
     getMyEnrollments,
     updateProgress,
+    getAllEnrollments,
  };
