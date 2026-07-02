@@ -10,11 +10,16 @@ const {
   getCourseContent,
 } = require("../controllers/courseController");
 
-router.post("/", addCourse);
+const { protect, isAdmin } = require("../middleware/authMiddleware");
+
+router.post("/", protect, isAdmin, addCourse);
+
+
 router.get("/", getCourses);
-router.get("/:id/content", getCourseContent);
+router.get("/:id/content", protect, getCourseContent);
 router.get("/:id", getCourseById);
-router.put("/:id", updateCourse);
-router.delete("/:id", deleteCourse);
+router.put("/:id", protect, isAdmin, updateCourse);
+router.delete("/:id", protect, isAdmin, deleteCourse);
+
 
 module.exports = router;

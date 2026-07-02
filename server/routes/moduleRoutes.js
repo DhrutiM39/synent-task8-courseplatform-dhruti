@@ -6,11 +6,13 @@ const {
   getModulesByCourse,
 } = require("../controllers/moduleController");
 
-const { protect } = require("../middleware/authMiddleware");
+const { protect, isAdmin } = require("../middleware/authMiddleware");
 
-router.post("/", protect, addModule);
+router.post("/", protect, isAdmin, addModule);
 
-router.get("/:courseId", getModulesByCourse);
+
+
+router.get("/:courseId", protect, getModulesByCourse);
 
 module.exports = router;
 

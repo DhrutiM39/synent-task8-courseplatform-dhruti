@@ -6,13 +6,18 @@ const {
   getLessonsByModule,
 } = require("../controllers/lessonController");
 
-const { protect } = require("../middleware/authMiddleware");
+const { protect, isAdmin } = require("../middleware/authMiddleware");
 
 // Add Lesson
-router.post("/", protect, addLesson);
+router.post("/", protect, isAdmin, addLesson);
+
+
+
+
+
 
 // Get Lessons of a Module
-router.get("/:moduleId", getLessonsByModule);
+router.get("/:moduleId", protect, getLessonsByModule);
 
 module.exports = router;
 

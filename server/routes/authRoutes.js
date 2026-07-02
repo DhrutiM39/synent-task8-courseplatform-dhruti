@@ -1,4 +1,5 @@
-const { protect } = require("../middleware/authMiddleware");
+const { protect, isAdmin } = require("../middleware/authMiddleware");
+
 const express = require("express");
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.post("/login", loginUser);
 router.get("/profile", protect, getProfile);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
-router.get("/users", protect, getAllUsers);
+router.get("/users", protect, isAdmin, getAllUsers);
+
 
 module.exports = router;

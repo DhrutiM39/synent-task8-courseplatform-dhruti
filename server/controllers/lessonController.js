@@ -1,4 +1,7 @@
 const Lesson = require("../models/Lesson");
+const Module = require("../models/Module");
+const Enrollment = require("../models/Enrollment");
+
 
 // Add Lesson
 const addLesson = async (req, res) => {
@@ -24,16 +27,26 @@ const addLesson = async (req, res) => {
 // Get Lessons by Module
 const getLessonsByModule = async (req, res) => {
   try {
-    const lessons = await Lesson.find({
-      module: req.params.moduleId,
-    }).sort({ order: 1 });
+    const moduleId = req.params.moduleId;
 
-    res.status(200).json(lessons);
+    const module = await Module.findById(moduleId);
+    if (!module) {
+      return res.status(404).json({ message: "Module not found" });
+    }
 
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
+    const enrollment = await Enrollment.findOne({
+      user: req.user.id,
+      course: module.course,
     });
+
+    if (!enrollment) {
+      return res.status(403).json({ message: "Enroll to access course content" });
+    }
+
+    const lessons = await Lesson.find({ module: moduleId }).sort({ order: 1 });
+    res.status(200).json(lessons);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 

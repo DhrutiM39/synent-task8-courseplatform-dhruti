@@ -19,27 +19,38 @@ const [selectedLesson, setSelectedLesson] = useState(null);
   }, []);
 
  
-const fetchCourse = async () => {
+  const fetchCourse = async () => {
   try {
+    const token = localStorage.getItem("token");
+
     const res = await axios.get(
-      `http://localhost:5000/api/courses/${id}/content`
+      `http://localhost:5000/api/courses/${id}/content`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     setCourse(res.data.course);
 
     setModules(res.data.modules);
 
-    if (
+    if ( 
       res.data.modules.length > 0 &&
       res.data.modules[0].lessons.length > 0
     ) {
-      setSelectedLesson(
-        res.data.modules[0].lessons[0]
-      );
+      setSelectedLesson(res.data.modules[0].lessons[0]);
     }
-
   } catch (error) {
-    console.log(error);
+    const message =
+      error.response?.data?.message ||
+      "You need to enroll to access this content";
+
+    alert(message);
+    setCourse(null);
+    setModules([]);
+    setSelectedLesson(null);
   }
 };
 
