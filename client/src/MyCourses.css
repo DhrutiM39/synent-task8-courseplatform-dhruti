@@ -84,6 +84,24 @@
 .complete-btn{
     width:100%;
     padding:12px;
+    margin-top:12px;
+    border:none;
+    border-radius:8px;
+    background:#16a34a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.complete-btn:hover{
+    background:#15803d;
+}
+
+.continue-btn{
+    width:100%;
+    padding:12px;
+    margin-top:18px;
     border:none;
     border-radius:8px;
     background:#2563eb;
@@ -93,6 +111,6 @@
     transition:.3s;
 }
 
-.complete-btn:hover{
+.continue-btn:hover{
     background:#1d4ed8;
 }

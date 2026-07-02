@@ -1,5 +1,6 @@
 import "../MyCourses.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function MyCourses() {
@@ -8,6 +9,8 @@ function MyCourses() {
   useEffect(() => {
     fetchMyCourses();
   }, []);
+
+  const navigate = useNavigate();
 
   const fetchMyCourses = async () => {
     try {
@@ -52,12 +55,14 @@ function MyCourses() {
     <div className="mycourses-container">
 
       <h1 className="mycourses-title">
-        📚 My Learning Dashboard
+         My Learning Dashboard
       </h1>
 
       <div className="mycourses-grid">
 
-        {courses.map((item) => (
+       {courses
+        .filter((item) => item.course)
+        .map((item) => (
 
           <div
             key={item._id}
@@ -72,11 +77,12 @@ function MyCourses() {
 
             <div className="course-content">
 
-              <h2>{item.course.title}</h2>
+              <h2>{item.course?.title}</h2>
 
-              <p>{item.course.description}</p>
+              <p>{item.course?.description}</p>
 
-              <h3>₹ {item.course.price}</h3>
+              <h3>₹ {item.course?.price}</h3>
+              
 
               <div className="progress-header">
                 <span>Progress</span>
@@ -92,6 +98,15 @@ function MyCourses() {
                   }}
                 ></div>
               </div>
+
+              <button
+                  className="continue-btn"
+                  onClick={() =>
+                  navigate(`/course/${item.course._id}`)
+                  }
+              >
+  ▶ Continue Learning
+</button>
 
               <button
                 className="complete-btn"

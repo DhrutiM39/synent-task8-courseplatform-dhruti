@@ -12,6 +12,7 @@ const courseRoutes = require("./routes/courseRoutes");
 const enrollmentRoutes = require("./routes/enrollmentRoutes");
 const moduleRoutes = require("./routes/moduleRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/modules", moduleRoutes);
 app.use("/api/lessons", lessonRoutes);
+app.use("/api/payments", paymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 
