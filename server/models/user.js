@@ -19,9 +19,15 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
   isAdmin: {
-  type: Boolean,
-  default: false,
-},
+    type: Boolean,
+    default: false,
+  },
+  verified: {
+    type: Boolean,
+    default: true,
+  },
+  verificationToken: String,
+  verificationExpire: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

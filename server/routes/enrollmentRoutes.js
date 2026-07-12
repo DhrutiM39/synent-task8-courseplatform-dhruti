@@ -4,8 +4,10 @@ const router = express.Router();
 const {
   getMyEnrollments,
   updateProgress,
+  markLessonComplete,
   getAllEnrollments,
 } = require("../controllers/enrollmentController");
+
 
 
 
@@ -26,6 +28,9 @@ router.get("/my-courses", protect, getMyEnrollments);
 
 
 router.put( "/:id/progress",protect,updateProgress);
+router.post("/mark-lesson-complete", protect, markLessonComplete);
+
+
 
 router.get("/all", protect, isAdmin, getAllEnrollments);
 

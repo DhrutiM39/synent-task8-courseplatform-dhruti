@@ -12,6 +12,14 @@ const enrollmentSchema = new mongoose.Schema(
       ref: "Course",
       required: true,
     },
+    // Store real lesson completion per user+course enrollment
+    completedLessons: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lesson",
+      },
+    ],
+    // legacy field (no longer updated by the backend). Kept for backwards compatibility.
     progress: {
       type: Number,
       default: 0,
@@ -23,3 +31,4 @@ const enrollmentSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Enrollment", enrollmentSchema);
+

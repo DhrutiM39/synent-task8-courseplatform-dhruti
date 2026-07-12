@@ -18,6 +18,34 @@
     margin-bottom:40px;
 }
 
+.filters-row{
+    width:100%;
+    max-width:800px;
+    margin: 0 auto 40px auto;
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.filter-field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-width:220px;
+}
+
+.filter-field label{
+    font-weight:600;
+}
+
+.filter-input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid gray;
+}
+
 .course-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -54,3 +82,4 @@
     border:none;
     border-radius:8px;
 }
+

@@ -1,6 +1,10 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const Enrollment = require("../models/Enrollment");
+const Payment = require("../models/Payment");
+const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail");
+
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -18,6 +22,15 @@ const createOrder = async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
+
+    // Persist the order so we can audit it and update status on verification.
+    await Payment.create({
+      user: req.user.id,
+      course: courseId,
+      razorpayOrderId: order.id,
+      amount: amount,          // stored in original units (INR), not paise
+      status: "created",
+    });
 
     res.status(200).json({
       order,
@@ -55,6 +68,12 @@ const verifyPayment = async (req, res) => {
       });
     }
 
+    // Mark the payment record as paid now that the signature is valid.
+    await Payment.findOneAndUpdate(
+      { razorpayOrderId: razorpay_order_id },
+      { razorpayPaymentId: razorpay_payment_id, status: "paid" }
+    );
+
     const alreadyEnrolled = await Enrollment.findOne({
       user: req.user.id,
       course: courseId,
@@ -71,6 +90,20 @@ const verifyPayment = async (req, res) => {
       course: courseId,
     });
 
+    // Send enrollment email (non-blocking)
+    try {
+      const user = await User.findById(req.user.id).select("email");
+      if (user?.email) {
+        await sendEmail({
+          email: user.email,
+          subject: "Enrollment confirmed",
+          message: `<p>Hi ${user.email},</p><p>Your payment was successful and you are enrolled.</p><p>Regards,<br/>Synent Team</p>`,
+        });
+      }
+    } catch (mailErr) {
+      console.log("ENROLLMENT EMAIL ERROR:", mailErr.message || mailErr);
+    }
+
     res.status(200).json({
       message: "Payment verified and enrollment successful",
       enrollment,
@@ -84,6 +117,11 @@ const verifyPayment = async (req, res) => {
 };
 
 const demoPaymentSuccess = async (req, res) => {
+  // Guard: only allow demo payments when explicitly enabled via env flag.
+  if (process.env.ALLOW_DEMO_PAYMENTS !== "true") {
+    return res.status(403).json({ message: "Demo payments are disabled." });
+  }
+
   try {
     const { courseId } = req.body;
 
@@ -102,6 +140,20 @@ const demoPaymentSuccess = async (req, res) => {
       user: req.user.id,
       course: courseId,
     });
+
+    // Send enrollment email (non-blocking)
+    try {
+      const user = await User.findById(req.user.id).select("email");
+      if (user?.email) {
+        await sendEmail({
+          email: user.email,
+          subject: "Enrollment confirmed",
+          message: `<p>Hi ${user.email},</p><p>You're enrolled successfully (demo payment).</p><p>Regards,<br/>Synent Team</p>`,
+        });
+      }
+    } catch (mailErr) {
+      console.log("ENROLLMENT EMAIL ERROR:", mailErr.message || mailErr);
+    }
 
     res.status(200).json({
       message: "Demo payment successful and enrollment created",

@@ -94,3 +94,89 @@ iframe {
   }
 }
 
+
+/* ── Locked lesson (non-enrolled view) ──────────────────────────────────── */
+.lesson-locked {
+  cursor: default;
+  color: #9ca3af;
+}
+
+.lesson-locked:hover {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+/* ── Enroll prompt in right panel ────────────────────────────────────────── */
+.enroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+  color: #6b7280;
+  gap: 10px;
+}
+
+.enroll-prompt h2 {
+  font-size: 1.5rem;
+  color: #374151;
+}
+
+/* ── Enroll notice in left panel ─────────────────────────────────────────── */
+.enroll-notice {
+  margin-top: 16px;
+  padding: 12px;
+  background: #eff6ff;
+  border-left: 4px solid #2563eb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #1e40af;
+}
+
+/* ── Currently-playing lesson highlight ─────────────────────────────────── */
+.lesson-active {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.lesson-active:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* ── Lesson icon spacing ─────────────────────────────────────────────────── */
+.lesson-icon {
+  margin-right: 8px;
+}
+
+/* ── Mark as Complete button ─────────────────────────────────────────────── */
+.mark-complete-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mark-complete-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.mark-complete-btn--done {
+  background: #16a34a;
+  cursor: default;
+}
+
+.mark-complete-btn:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+

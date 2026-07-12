@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "../AddCourse.css";
 
@@ -22,10 +22,12 @@ function EditCourse() {
         `http://localhost:5000/api/courses/${id}`
       );
 
-      setTitle(res.data.title);
-      setDescription(res.data.description);
-      setPrice(res.data.price);
-      setThumbnail(res.data.thumbnail);
+      // getCourseById now returns { course, modules }
+      const c = res.data.course ?? res.data;
+      setTitle(c.title);
+      setDescription(c.description);
+      setPrice(c.price);
+      setThumbnail(c.thumbnail);
     } catch (error) {
       console.log(error);
     }
@@ -107,6 +109,46 @@ function EditCourse() {
         </button>
 
       </form>
+
+      {/* ── Quick-jump to module/lesson management for this course ── */}
+      <div style={{ marginTop: "20px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
+        <Link
+          to={`/admin/add-module?courseId=${id}`}
+          style={{
+            flex: 1,
+            padding: "12px",
+            background: "transparent",
+            color: "#2563eb",
+            border: "1px solid #2563eb",
+            borderRadius: "10px",
+            textDecoration: "none",
+            textAlign: "center",
+            fontSize: "15px",
+            fontWeight: 600,
+          }}
+        >
+          🗂️ Manage Modules
+        </Link>
+
+        <Link
+          to={`/admin/add-lesson?courseId=${id}`}
+          style={{
+            flex: 1,
+            padding: "12px",
+            background: "transparent",
+            color: "#16a34a",
+            border: "1px solid #16a34a",
+            borderRadius: "10px",
+            textDecoration: "none",
+            textAlign: "center",
+            fontSize: "15px",
+            fontWeight: 600,
+          }}
+        >
+          🎬 Manage Lessons
+        </Link>
+      </div>
+
     </div>
   );
 }

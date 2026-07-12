@@ -18,6 +18,16 @@ function AdminDashboard() {
           <p>Edit or Delete Courses</p>
         </Link>
 
+        <Link to="/admin/add-module" className="admin-card">
+          <h2>🗂️ Add Module</h2>
+          <p>Add a module to a course</p>
+        </Link>
+
+        <Link to="/admin/add-lesson" className="admin-card">
+          <h2>🎬 Add Lesson</h2>
+          <p>Add a video lesson to a module</p>
+        </Link>
+
         <Link to="/admin/users" className="admin-card">
           <h2>👨‍🎓 Users</h2>
           <p>View Registered Users</p>

@@ -23,7 +23,9 @@ function Register() {
         }
       );
 
-      alert("Registration Successful");
+      alert(
+        "Registration Successful! Please check your email to verify your account before logging in."
+      );
 
       navigate("/login");
     } catch (error) {

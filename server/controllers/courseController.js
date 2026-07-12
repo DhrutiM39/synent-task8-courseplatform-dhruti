@@ -45,7 +45,19 @@ const getCourseById = async (req, res) => {
       });
     }
 
-    res.status(200).json(course);
+    // Build a lightweight curriculum: module titles + lesson titles only.
+    // videoUrl is intentionally excluded here — it is gated behind /:id/content.
+    const rawModules = await Module.find({ course: course._id }).sort({ order: 1 });
+    const modules = await Promise.all(
+      rawModules.map(async (mod) => {
+        const lessons = await Lesson.find({ module: mod._id })
+          .sort({ order: 1 })
+          .select("_id title order"); // no videoUrl
+        return { _id: mod._id, title: mod.title, order: mod.order, lessons };
+      })
+    );
+
+    res.status(200).json({ course, modules });
   } catch (error) {
     res.status(500).json({
       message: error.message,
